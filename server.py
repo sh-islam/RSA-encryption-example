@@ -22,13 +22,15 @@ s.listen(2)
 print("Waiting for a connection, Server Started")
 
 def main():
-    global counter, game
     exit_flag = threading.Event()
+
     while exit_flag.isSet:
         try:
             if select.select([s], [], [], 0)[0]:    
                 client_socket, client_addr = s.accept()
                 print(f"Accepted connection from {client_addr}")
+
+                # Exchange keys
                 public_partner = rsa.PublicKey.load_pkcs1(client_socket.recv(1024))
                 print(f"Received public key from {client_addr}: {public_partner}")
                 client_socket.send(public_key.save_pkcs1("PEM"))
