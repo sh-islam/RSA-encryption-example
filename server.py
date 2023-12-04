@@ -24,7 +24,7 @@ print("Waiting for a connection, Server Started")
 def main():
     global counter, game
     exit_flag = threading.Event()
-    while True:
+    while exit_flag.isSet:
         try:
             if select.select([s], [], [], 0)[0]:    
                 client_socket, client_addr = s.accept()
